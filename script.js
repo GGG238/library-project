@@ -27,7 +27,6 @@ const hobbit = new Book('The hobbit', 'J.R.R. Tolkien', 295, 'not read yet');
 myLibrary.push(hobbit);
 myLibrary.push(hobbit);
 myLibrary.push(hobbit);
-myLibrary.push(hobbit);
 
 /*
 const table = document.getElementById("table-body");
@@ -48,7 +47,7 @@ updateTable();
 */
 
 const bookshelf = document.getElementById("books");
-let n=0;
+
 function updateBookshelf(){
     for(let book of myLibrary){
 
@@ -56,12 +55,11 @@ function updateBookshelf(){
         let myNewBook = document.createElement("div");
         myNewBook.classList.add("book");
         for(let att in book){
+            let key = att.split('').shift().toUpperCase() + att.slice(1,) + ':';
             let data = document.createElement("div");
-            data.textContent = book[att];
+            data.textContent = `${key} ${book[att]}`;
             myNewBook.appendChild(data);
         }
-myNewBook.style.backgroundColor = `hsl(${n},100%, 50%)`;
-n+=30;
 
         bookshelf.appendChild(myNewBook);
     }
