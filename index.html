@@ -12,7 +12,7 @@
     <div id="container">
         <div id="header">
             <p>Library project</p>
-            <button>+</button>
+            <button id="add-book">+</button>
         </div>
         <div id="books">
             
@@ -22,33 +22,21 @@
         <div id="pop-up">
             <form action="">
                 <div><label for="title">Title</label>
-                    <input type="text" name="title" id="title" required>
+                    <input type="text" name="title" id="title" value="" required>
                 </div>
                 <div><label for="author">Author</label>
-                    <input type="text" name="author" id="author" required>
+                    <input type="text" name="author" id="author" value="" required>
                 </div>
                 <div><label for="pages">Pages</label>
-                    <input type="text" name="pages" id="pages" pattern="\d+" required>
+                    <input type="text" name="pages" id="pages" value="" pattern="\d+" required>
                 </div>
                 <div><label for="status" style="display: inline;">Have you already read it?</label>
-                    <input type="checkbox" name="status" id="status">
+                    <input type="checkbox" name="status" id="status" value=unchecked>
                 </div>
-                <button type="button" id="button">Add</button>
+                <button type="button" class="button add" id="add">Add</button>
+                <button type="button" class="button cancel" id="cancel">Cancel</button>
             </form>
         </div>
-        <!--
-        <table>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Pages</th>
-                <th>Status</th>
-            </tr>
-            <tbody id="table-body">
-                
-            </tbody>
-        </table>
-        -->
     </div>
 </body>
 </html>

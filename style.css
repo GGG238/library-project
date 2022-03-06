@@ -110,24 +110,30 @@ input[type = text]{
     padding-left: 0.5rem;
 }
 
-#button{
+.button{
     align-self: stretch;
     height: 3rem;
     font-size: 1.5rem;
     font-weight: bold;
-    background-color: #52ab98;
     border-radius: 3rem;
     cursor: pointer;
+    margin: 0.5rem;
 }
 
-
-
-/*
-table, th, tr, td{
-    border: 2px solid black;
-    border-collapse: collapse;
-    width: 800px;
-    margin: 0 auto;
-    padding: 4px 6px;
+.add{
+    background-color: #52ab98;
 }
-*/
+
+.cancel{
+    background-color: #db3a3a;
+}
+
+.read{
+    background-color: #72f0d5;
+    content: "Read";
+}
+
+.notRead{
+    background-color: #ff5c5c;
+    content: "Not read";
+}
