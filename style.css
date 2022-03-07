@@ -30,6 +30,7 @@ p{
     align-items: center;
     background-color: #2b6777;
     height: auto;
+    color: white;
 }
 
 #header button{
@@ -41,6 +42,7 @@ p{
     background-color: transparent;
     border: none;
     cursor: pointer;
+    color: white;
 }
 
 #books{
@@ -136,4 +138,10 @@ input[type = text]{
 .notRead{
     background-color: #ff5c5c;
     content: "Not read";
+}
+
+.required{
+    color: red;
+    font-size: 0.8rem;
+    font-style: italic;
 }

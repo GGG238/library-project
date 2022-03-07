@@ -12,16 +12,19 @@ function Book(title, author, pages, status){
 
 
 const hobbit = new Book('The hobbit', 'J.R.R. Tolkien', 295, 'not read yet');
+const hobbit1 = new Book('The hobbit', 'J.R.R. Tolkien', 456, 'not read yet');
+const hobbit2 = new Book('The hobbit', 'J.R.R. Tolkien', 789, 'not read yet');
 
 myLibrary.push(hobbit);
-myLibrary.push(hobbit);
-myLibrary.push(hobbit);
+myLibrary.push(hobbit1);
+myLibrary.push(hobbit2);
 
 
 const bookshelf = document.getElementById("books");
 
 function updateBookshelf(){
     bookshelf.innerHTML = "";
+    let index = 0;
     for(let book of myLibrary){
 
         
@@ -59,7 +62,10 @@ function updateBookshelf(){
         removeBtn.addEventListener("click", removeBook);
         myNewBook.appendChild(removeBtn);
 
+        myNewBook.dataset.bookIndex = `book-${index}`;
+
         bookshelf.appendChild(myNewBook);
+        index++;
     }
 }
 
@@ -88,6 +94,18 @@ function newBook(){
 }
 
 function addBookToLibrary(){
+    let areFilled = true;
+    document.getElementById("pop-up").querySelectorAll("[required]").forEach( field => {
+        if(field.value === "" || field.checkValidity()){
+            areFilled = false;
+            let div = document.createElement("div");
+            div.textContent = "Please fill this field";
+            div.classList.add("required");
+            field.parentElement.appendChild(div);
+        }
+    });
+    if(!areFilled) return;
+
     let title = bookTitle.value;
     let author = bookAuthor.value;
     let pages = +bookPages.value;
@@ -112,6 +130,9 @@ function resetValues(){
 resetValues();
 
 function toggleClass(){
+    // console.log(this.parentElement.dataset.bookIndex);
+    // console.log(this.parentElement.dataset.bookIndex.split("-").pop())
+
     if(this.textContent === "Read"){
         this.classList.remove("read");
         this.classList.add("notRead");
@@ -121,9 +142,14 @@ function toggleClass(){
         this.classList.add("read");
         this.textContent = "Read";
     }
-    
+
+    let index = this.parentElement.dataset.bookIndex.split("-").pop();
+    myLibrary[index].status = !myLibrary[index].status;
 }
 
 function removeBook(){
-    alert("Almost done");
+    index = this.parentElement.dataset.bookIndex.split("-").pop();
+    myLibrary.splice(index, 1);
+    updateBookshelf();
+    // console.log(myLibrary);
 }
