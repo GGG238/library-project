@@ -7,29 +7,32 @@ function Book(title, author, pages, status){
     this.status = status;
 }
 
-
-
-
-
-const hobbit = new Book('The hobbit', 'J.R.R. Tolkien', 295, 'not read yet');
-const hobbit1 = new Book('The hobbit', 'J.R.R. Tolkien', 456, 'not read yet');
-const hobbit2 = new Book('The hobbit', 'J.R.R. Tolkien', 789, 'not read yet');
-
-myLibrary.push(hobbit);
-myLibrary.push(hobbit1);
-myLibrary.push(hobbit2);
-
-
 const bookshelf = document.getElementById("books");
+
+let addBook = document.getElementById("add-book");
+
+let popUp = document.getElementById("pop-up");
+let addButton = document.getElementById("add");
+let cancelButton = document.getElementById("cancel");
+
+let bookTitle = document.getElementById("title");
+let bookAuthor = document.getElementById("author");
+let bookPages = document.getElementById("pages");
+let bookStatus = document.getElementById("status");
+
+
+addBook.addEventListener("click", newBook);
+addButton.addEventListener("click", addBookToLibrary);
+cancelButton.addEventListener("click", resetValues);
+
 
 function updateBookshelf(){
     bookshelf.innerHTML = "";
     let index = 0;
-    for(let book of myLibrary){
-
-        
+    for(let book of myLibrary){        
         let myNewBook = document.createElement("div");
         myNewBook.classList.add("book");
+
         for(let att in book){
             if(att !== "status"){
                 let key = att.split('').shift().toUpperCase() + att.slice(1,) + ':';
@@ -49,8 +52,7 @@ function updateBookshelf(){
                     btn.classList.add("notRead");
                     btn.textContent = "Not read";
                 }
-
-                            
+     
                 myNewBook.appendChild(btn);
             }
         }
@@ -69,26 +71,6 @@ function updateBookshelf(){
     }
 }
 
-updateBookshelf();
-
-
-let addBook = document.getElementById("add-book");
-
-let popUp = document.getElementById("pop-up");
-let addButton = document.getElementById("add");
-let cancelButton = document.getElementById("cancel");
-
-let bookTitle = document.getElementById("title");
-let bookAuthor = document.getElementById("author");
-let bookPages = document.getElementById("pages");
-let bookStatus = document.getElementById("status");
-
-
-
-addBook.addEventListener("click", newBook);
-addButton.addEventListener("click", addBookToLibrary);
-cancelButton.addEventListener("click", resetValues);
-
 function newBook(){
     popUp.style.display = "block";
 }
@@ -96,15 +78,13 @@ function newBook(){
 function addBookToLibrary(){
     let areFilled = true;
     document.getElementById("pop-up").querySelectorAll("[required]").forEach( field => {
-        if(field.value === "" || field.checkValidity()){
+        if(!field.checkValidity()){
             areFilled = false;
-            let div = document.createElement("div");
-            div.textContent = "Please fill this field";
-            div.classList.add("required");
-            field.parentElement.appendChild(div);
         }
     });
-    if(!areFilled) return;
+    if(!areFilled){
+        return;
+    } 
 
     let title = bookTitle.value;
     let author = bookAuthor.value;
@@ -127,11 +107,9 @@ function resetValues(){
     popUp.style.display = "none";
 }
 
-resetValues();
-
 function toggleClass(){
     // console.log(this.parentElement.dataset.bookIndex);
-    // console.log(this.parentElement.dataset.bookIndex.split("-").pop())
+    // console.log(this.parentElement.dataset.bookIndex.split("-").pop());
 
     if(this.textContent === "Read"){
         this.classList.remove("read");

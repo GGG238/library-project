@@ -139,9 +139,3 @@ input[type = text]{
     background-color: #ff5c5c;
     content: "Not read";
 }
-
-.required{
-    color: red;
-    font-size: 0.8rem;
-    font-style: italic;
-}
