@@ -1,5 +1,3 @@
-// let myLibrary = [];
-/*
 const bookshelf = document.getElementById("books");
 
 let addBook = document.getElementById("add-book");
@@ -13,10 +11,13 @@ let bookAuthor = document.getElementById("author");
 let bookPages = document.getElementById("pages");
 let bookStatus = document.getElementById("status");
 
+
 addBook.addEventListener("click", newBook);
-addButton.addEventListener("click", addBookToLibrary);
-cancelButton.addEventListener("click", resetValues);
-*/
+
+function newBook(){
+    popUp.style.display = "block";
+}
+
 
 
 class Book {
@@ -26,39 +27,48 @@ class Book {
         this.pages = pages;
         this.status = status;
     }
-
-    toggleClass(){
-
-        if(this.status === true){
-            this.classList.remove("read");
-            this.classList.add("notRead");
-            this.textContent = "Not read";
-        }else{
-            this.classList.remove("notRead");
-            this.classList.add("read");
-            this.textContent = "Read";
-        }
-    
-        let index = this.parentElement.dataset.bookIndex.split("-").pop();
-        myLibrary[index].status = !myLibrary[index].status;
-    }
-
-    removeBook(){
-        index = this.parentElement.dataset.bookIndex.split("-").pop();
-        myLibrary.splice(index, 1);
-        updateBookshelf();
-    }
 }
 
-class Bookshelf {
-    constructor(books){
-        this.books = books;
+class Library {
+    constructor(){
+        this.books = [];
+    }
+
+    addBook(){
+        let areFilled = true;
+        document.getElementById("pop-up").querySelectorAll("[required]").forEach( field => {
+            if(!field.checkValidity()){
+                areFilled = false;
+            }
+        });
+
+        if(!areFilled) return;
+    
+        let title = bookTitle.value;
+        let author = bookAuthor.value;
+        let pages = +bookPages.value;
+        let status = bookStatus.checked;
+    
+        this.resetValues();
+    
+        let newBook = new Book(title, author, pages, status);
+        this.books.push(newBook);
+        this.update();
+    }
+
+    resetValues(){
+        bookTitle.value = bookTitle.defaultValue;
+        bookAuthor.value = bookAuthor.defaultValue;
+        bookPages.value = bookPages.defaultValue;
+        bookStatus.checked = false;
+    
+        popUp.style.display = "none";
     }
 
     update(){
         bookshelf.innerHTML = "";
         let index = 0;
-        for(let book of myLibrary){        
+        for(let book of this.books){        
             let myNewBook = document.createElement("div");
             myNewBook.classList.add("book");
     
@@ -100,39 +110,37 @@ class Bookshelf {
         }
     }
 
-    newBook(){
-        popUp.style.display = "block";
+    remove(index){
+        this.books.splice(index, 1);
+        this.update();
     }
 
-    addBook(){
-        let areFilled = true;
-        document.getElementById("pop-up").querySelectorAll("[required]").forEach( field => {
-            if(!field.checkValidity()){
-                areFilled = false;
-            }
-        });
-        if(!areFilled){
-            return;
-        } 
-    
-        let title = bookTitle.value;
-        let author = bookAuthor.value;
-        let pages = +bookPages.value;
-        let status = bookStatus.checked;
-    
-        resetValues();
-    
-        let newBook = new Book(title, author, pages, status);
-        myLibrary.push(newBook);
-        updateBookshelf();
+}
+
+
+
+
+let myLibrary = new Library();
+
+addButton.addEventListener("click", () => {myLibrary.addBook()});
+cancelButton.addEventListener("click", () => {myLibrary.resetValues()});
+
+function removeBook(){
+    index = this.parentElement.dataset.bookIndex.split("-").pop();
+    myLibrary.remove(index);
+}
+
+function toggleClass(){
+    if(this.textContent === "Read"){
+        this.classList.remove("read");
+        this.classList.add("notRead");
+        this.textContent = "Not read";
+    }else{
+        this.classList.remove("notRead");
+        this.classList.add("read");
+        this.textContent = "Read";
     }
 
-    resetValues(){
-        bookTitle.value = bookTitle.defaultValue;
-        bookAuthor.value = bookAuthor.defaultValue;
-        bookPages.value = bookPages.defaultValue;
-        bookStatus.checked = false;
-    
-        popUp.style.display = "none";
-    }
+    let index = this.parentElement.dataset.bookIndex.split("-").pop();
+    myLibrary.books[index].status = !myLibrary.books[index].status;
 }
